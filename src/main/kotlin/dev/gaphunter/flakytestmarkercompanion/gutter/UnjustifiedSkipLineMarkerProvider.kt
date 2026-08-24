@@ -9,6 +9,7 @@ import dev.gaphunter.flakytestmarkercompanion.detect.JavaSkipFinder
 import dev.gaphunter.flakytestmarkercompanion.detect.KotlinSkipFinder
 import dev.gaphunter.flakytestmarkercompanion.model.SkipHit
 import dev.gaphunter.flakytestmarkercompanion.model.SkipProblem
+import dev.gaphunter.flakytestmarkercompanion.review.ReviewPrompt
 
 class UnjustifiedSkipLineMarkerProvider : LineMarkerProviderDescriptor(), DumbAware {
 
@@ -29,6 +30,10 @@ class UnjustifiedSkipLineMarkerProvider : LineMarkerProviderDescriptor(), DumbAw
         for (element in elements) {
             val hit = hitsByElement[element] ?: continue
             result.add(buildMarker(hit))
+
+            val path = file.virtualFile?.path ?: continue
+            val lineNumber = file.viewProvider.document?.getLineNumber(element.textRange.startOffset) ?: -1
+            ReviewPrompt.recordHit(file.project, "$path:$lineNumber")
         }
     }
 

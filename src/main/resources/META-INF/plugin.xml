@@ -36,5 +36,6 @@
             implementationClass="dev.gaphunter.flakytestmarkercompanion.gutter.UnjustifiedSkipLineMarkerProvider"/>
         <codeInsight.lineMarkerProvider language="kotlin"
             implementationClass="dev.gaphunter.flakytestmarkercompanion.gutter.UnjustifiedSkipLineMarkerProvider"/>
+        <notificationGroup id="Flaky Test Marker Companion" displayType="BALLOON"/>
     </extensions>
 </idea-plugin>
