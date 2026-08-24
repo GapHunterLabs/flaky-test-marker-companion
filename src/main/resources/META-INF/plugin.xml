@@ -1,0 +1,40 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>dev.gaphunter.flakytestmarkercompanion</id>
+    <name>Flaky Test Marker Companion</name>
+    <vendor>Gap Hunter Labs</vendor>
+    <description><![CDATA[
+        <p>Gutter warning icon on any Java/Kotlin test method annotated
+        <code>@Disabled</code> (JUnit 5) or <code>@Ignore</code>
+        (JUnit 4) with no reason given, or whose reason names a
+        <code>YYYY-MM-DD</code> revisit date that has already passed.
+        Skipped tests are easy to forget about entirely -- without a
+        reason, future readers have no context for why it's disabled;
+        with a stale date, it's a real signal the test is overdue for a
+        second look.</p>
+        <p><b>100% static text/PSI analysis</b> -- matches the
+        annotation by simple name, so it works whether the real JUnit
+        jar is on the classpath or not. Java and Kotlin.</p>
+        <p>Stated honestly: v0.1 only recognizes a `YYYY-MM-DD` date
+        embedded directly in the reason string -- other date formats,
+        or a date referenced only in a linked ticket, aren't covered.
+        Doesn't attempt to judge whether a *given* reason is actually a
+        good one, only whether one exists and (if dated) is current.</p>
+        <p>Free. No license nags, no telemetry, no network calls.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
+    <depends>org.jetbrains.kotlin</depends>
+
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK1="true" supportsK2="true"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.lineMarkerProvider language="JAVA"
+            implementationClass="dev.gaphunter.flakytestmarkercompanion.gutter.UnjustifiedSkipLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="kotlin"
+            implementationClass="dev.gaphunter.flakytestmarkercompanion.gutter.UnjustifiedSkipLineMarkerProvider"/>
+    </extensions>
+</idea-plugin>
